@@ -41,6 +41,10 @@
 			</plugin>
 		</plugins>
 	</build>
+	<properties>
+		<liferay.version>6.2.0-B3</liferay.version>
+		<liferay.maven.plugin.version>6.2.0-B3</liferay.maven.plugin.version>
+	</properties>
 	<modules>
 		<module>service-builder-unit-testable-portlet</module>
 		<module>service-builder-unit-testable-portlet-service</module>
