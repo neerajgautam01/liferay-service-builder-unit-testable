@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>com.liferay.devcon2013</groupId>
 			<artifactId>service-builder-unit-testable-portlet-service</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
