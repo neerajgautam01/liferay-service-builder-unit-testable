@@ -1,5 +1,5 @@
 <!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.1.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_1_0.dtd">
 
 <service-builder package-path="com.liferay.devcon2013">
-	<namespace>service-builder-unit-testable</namespace>
+	<namespace>SBUT</namespace>
 </service-builder>
