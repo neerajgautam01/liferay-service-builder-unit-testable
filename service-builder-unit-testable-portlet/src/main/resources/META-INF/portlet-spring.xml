@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.liferay.devcon2013.service.BeerDrinkerLocalService" class="com.liferay.devcon2013.service.impl.BeerDrinkerLocalServiceImpl" />
+	<bean id="com.liferay.devcon2013.service.BeerDrinkerService" class="com.liferay.devcon2013.service.impl.BeerDrinkerServiceImpl" />
+	<bean id="com.liferay.devcon2013.service.persistence.BeerDrinkerPersistence" class="com.liferay.devcon2013.service.persistence.BeerDrinkerPersistenceImpl" parent="basePersistence" />
+</beans>
