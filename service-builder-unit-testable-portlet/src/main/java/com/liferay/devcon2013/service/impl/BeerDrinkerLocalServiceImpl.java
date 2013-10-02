@@ -27,6 +27,12 @@ public class BeerDrinkerLocalServiceImpl extends BeerDrinkerLocalServiceBaseImpl
 		String name, float alcoholLevel, ServiceContext serviceContext)
 		throws PortalException, SystemException {
 
+		validate(name, alcoholLevel);
+
+		return null;
+	}
+
+	protected void validate(String name, float alcoholLevel) {
 		if (Validator.isNull(name)) {
 			throw new IllegalArgumentException(
 				"Parameter name cannot be null or empty!");
@@ -36,7 +42,5 @@ public class BeerDrinkerLocalServiceImpl extends BeerDrinkerLocalServiceBaseImpl
 			throw new IllegalArgumentException(
 				"Parameter alcoholLevel cannot be negative!");
 		}
-
-		return null;
 	}
 }
