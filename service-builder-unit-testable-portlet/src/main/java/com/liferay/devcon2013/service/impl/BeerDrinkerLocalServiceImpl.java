@@ -23,10 +23,13 @@ import com.liferay.portal.service.ServiceContext;
  */
 public class BeerDrinkerLocalServiceImpl extends BeerDrinkerLocalServiceBaseImpl {
 
-	public BeerDrinker addBeerDrinker(String name, float alcoholLevel, ServiceContext serviceContext) throws PortalException, SystemException {
+	public BeerDrinker addBeerDrinker(
+		String name, float alcoholLevel, ServiceContext serviceContext)
+		throws PortalException, SystemException {
 
 		if (Validator.isNull(name)) {
-			throw new IllegalArgumentException("Parameter name cannot be null or empty!");
+			throw new IllegalArgumentException(
+				"Parameter name cannot be null or empty!");
 		}
 
 		return null;
