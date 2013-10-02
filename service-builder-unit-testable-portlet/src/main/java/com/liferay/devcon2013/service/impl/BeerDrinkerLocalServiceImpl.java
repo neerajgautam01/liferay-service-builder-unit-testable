@@ -32,6 +32,11 @@ public class BeerDrinkerLocalServiceImpl extends BeerDrinkerLocalServiceBaseImpl
 				"Parameter name cannot be null or empty!");
 		}
 
+		if (alcoholLevel < 0) {
+			throw new IllegalArgumentException(
+				"Parameter alcoholLevel cannot be negative!");
+		}
+
 		return null;
 	}
 }
