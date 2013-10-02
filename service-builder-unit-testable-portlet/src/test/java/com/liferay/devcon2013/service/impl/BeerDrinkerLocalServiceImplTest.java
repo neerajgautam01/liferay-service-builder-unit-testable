@@ -9,49 +9,35 @@ import com.liferay.portal.service.ServiceContext;
 
 public class BeerDrinkerLocalServiceImplTest {
 
-	@Test
-	public void testAddBeerDrinkerWithEmptyName() {
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddBeerDrinkerWithEmptyName() throws Exception {
 		String name = StringPool.BLANK;
 		float alcoholLevel = 0;
 		ServiceContext serviceContext = new ServiceContext();
 		BeerDrinkerLocalServiceImpl impl = new BeerDrinkerLocalServiceImpl();
 
-		try {
-			impl.addBeerDrinker(name, alcoholLevel, serviceContext);
-			fail("It must throw an " + IllegalArgumentException.class.getName());
-		} catch (Exception e) {
-			assertEquals(IllegalArgumentException.class, e.getClass());
-		}
+		impl.addBeerDrinker(name, alcoholLevel, serviceContext);
 	}
 
-	@Test
-	public void testAddBeerDrinkerWithNegativeAlcoholLevel() {
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddBeerDrinkerWithNegativeAlcoholLevel() throws Exception {
 		String name = "Drunk";
 		float alcoholLevel = -1;
 		ServiceContext serviceContext = new ServiceContext();
 		BeerDrinkerLocalServiceImpl impl = new BeerDrinkerLocalServiceImpl();
 
-		try {
-			impl.addBeerDrinker(name, alcoholLevel, serviceContext);
-			fail("It must throw an " + IllegalArgumentException.class.getName());
-		} catch (Exception e) {
-			assertEquals(IllegalArgumentException.class, e.getClass());
-		}
+		impl.addBeerDrinker(name, alcoholLevel, serviceContext);
 	}
 
-	@Test
-	public void testAddBeerDrinkerWithNullName() {
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddBeerDrinkerWithNullName() throws Exception {
 		String name = null;
 		float alcoholLevel = 0;
 		ServiceContext serviceContext = new ServiceContext();
 		BeerDrinkerLocalServiceImpl impl = new BeerDrinkerLocalServiceImpl();
 
-		try {
-			impl.addBeerDrinker(name, alcoholLevel, serviceContext);
-			fail("It must throw an " + IllegalArgumentException.class.getName());
-		} catch (Exception e) {
-			assertEquals(IllegalArgumentException.class, e.getClass());
-		}
+		impl.addBeerDrinker(name, alcoholLevel, serviceContext);
+	}
 	}
 
 }
