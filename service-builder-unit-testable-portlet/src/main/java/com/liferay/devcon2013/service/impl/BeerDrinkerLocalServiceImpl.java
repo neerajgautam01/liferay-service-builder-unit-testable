@@ -1,6 +1,11 @@
 package com.liferay.devcon2013.service.impl;
 
+import com.liferay.devcon2013.model.BeerDrinker;
 import com.liferay.devcon2013.service.base.BeerDrinkerLocalServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.service.ServiceContext;
 
 /**
  * The implementation of the beer drinker local service.
@@ -17,9 +22,13 @@ import com.liferay.devcon2013.service.base.BeerDrinkerLocalServiceBaseImpl;
  * @see com.liferay.devcon2013.service.BeerDrinkerLocalServiceUtil
  */
 public class BeerDrinkerLocalServiceImpl extends BeerDrinkerLocalServiceBaseImpl {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never reference this interface directly. Always use {@link com.liferay.devcon2013.service.BeerDrinkerLocalServiceUtil} to access the beer drinker local service.
-     */
+
+	public BeerDrinker addBeerDrinker(String name, float alcoholLevel, ServiceContext serviceContext) throws PortalException, SystemException {
+
+		if (Validator.isNull(name)) {
+			throw new IllegalArgumentException("Parameter name cannot be null or empty!");
+		}
+
+		return null;
+	}
 }
