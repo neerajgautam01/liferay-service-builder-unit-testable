@@ -5,6 +5,7 @@ import com.liferay.devcon2013.service.base.BeerDrinkerLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
 
 /**
@@ -29,7 +30,20 @@ public class BeerDrinkerLocalServiceImpl extends BeerDrinkerLocalServiceBaseImpl
 
 		validate(name, alcoholLevel);
 
-		return null;
+		User user = userLocalService.getUser(serviceContext.getUserId());
+		long beerDrinkerId = counterLocalService.increment(BeerDrinker.class.getName());
+		BeerDrinker beerDrinker = beerDrinkerPersistence.create(beerDrinkerId);
+
+		beerDrinker.setCompanyId(serviceContext.getCompanyId());
+		beerDrinker.setGroupId(serviceContext.getScopeGroupId());
+		beerDrinker.setUserId(user.getUserId());
+		beerDrinker.setUserName(user.getFullName());
+		beerDrinker.setName(name);
+		beerDrinker.setAlcoholLevel(alcoholLevel);
+
+		beerDrinkerPersistence.update(beerDrinker);
+
+		return beerDrinker;
 	}
 
 	protected void validate(String name, float alcoholLevel) {
