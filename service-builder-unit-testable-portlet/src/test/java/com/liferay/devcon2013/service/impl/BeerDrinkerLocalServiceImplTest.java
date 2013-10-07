@@ -8,16 +8,24 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.liferay.counter.service.CounterLocalService;
 import com.liferay.devcon2013.model.BeerDrinker;
 import com.liferay.devcon2013.model.BeerDrinkerClp;
 import com.liferay.devcon2013.service.persistence.BeerDrinkerPersistence;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.UserLocalService;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({WorkflowHandlerRegistryUtil.class})
 public class BeerDrinkerLocalServiceImplTest {
 
 	@Test(expected = IllegalArgumentException.class)
@@ -60,6 +68,7 @@ public class BeerDrinkerLocalServiceImplTest {
 
 		User user = createNiceMock(User.class);
 
+		expect(user.getUserId()).andReturn(serviceContext.getUserId());
 		replay(user);
 
 		UserLocalService userLocalService = createNiceMock(UserLocalService.class);
@@ -79,6 +88,10 @@ public class BeerDrinkerLocalServiceImplTest {
 		BeerDrinker beerDrinker = new BeerDrinkerClp();
 
 		beerDrinker.setBeerDrinkerId(beerDrinkerId);
+		beerDrinker.setPrimaryKey(beerDrinkerId);
+		beerDrinker.setCompanyId(serviceContext.getCompanyId());
+		beerDrinker.setGroupId(serviceContext.getScopeGroupId());
+		beerDrinker.setUserId(serviceContext.getUserId());
 
 		BeerDrinkerPersistence beerDrinkerPersistence = createNiceMock(BeerDrinkerPersistence.class);
 
@@ -87,14 +100,26 @@ public class BeerDrinkerLocalServiceImplTest {
 
 		impl.setBeerDrinkerPersistence(beerDrinkerPersistence);
 
+		PowerMock.mockStatic(WorkflowHandlerRegistryUtil.class);
+
+		WorkflowHandlerRegistryUtil.startWorkflowInstance(
+			beerDrinker.getCompanyId(), beerDrinker.getGroupId(),
+			beerDrinker.getUserId(), BeerDrinker.class.getName(),
+			beerDrinker.getPrimaryKey(), beerDrinker, serviceContext);
+
+		PowerMock.replay(WorkflowHandlerRegistryUtil.class);
+
 		BeerDrinker beerDrinker2 = impl.addBeerDrinker(name, alcoholLevel, serviceContext);
 
 		assertNotNull(beerDrinker2);
 		assertEquals(beerDrinkerId, beerDrinker2.getBeerDrinkerId());
 		assertEquals(name, beerDrinker2.getName());
 		assertEquals(alcoholLevel, beerDrinker2.getAlcoholLevel(), 0);
-		
+		assertEquals(WorkflowConstants.STATUS_DRAFT, beerDrinker2.getStatus());
+
 		verify(user, userLocalService, counterLocalService, beerDrinkerPersistence);
+
+		PowerMock.verify(WorkflowHandlerRegistryUtil.class);
 	}
 
 	protected ServiceContext getServiceContext() {
