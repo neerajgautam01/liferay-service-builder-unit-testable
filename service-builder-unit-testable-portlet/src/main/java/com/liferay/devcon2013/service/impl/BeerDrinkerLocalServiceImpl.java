@@ -1,10 +1,14 @@
 package com.liferay.devcon2013.service.impl;
 
+import java.util.Date;
+
 import com.liferay.devcon2013.model.BeerDrinker;
 import com.liferay.devcon2013.service.base.BeerDrinkerLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
 
@@ -41,7 +45,16 @@ public class BeerDrinkerLocalServiceImpl extends BeerDrinkerLocalServiceBaseImpl
 		beerDrinker.setName(name);
 		beerDrinker.setAlcoholLevel(alcoholLevel);
 
+		beerDrinker.setStatus(WorkflowConstants.STATUS_DRAFT);
+		beerDrinker.setStatusByUserId(user.getUserId());
+		beerDrinker.setStatusDate(new Date());
+
 		beerDrinkerPersistence.update(beerDrinker);
+
+		WorkflowHandlerRegistryUtil.startWorkflowInstance(
+			beerDrinker.getCompanyId(), beerDrinker.getGroupId(),
+			beerDrinker.getUserId(), BeerDrinker.class.getName(),
+			beerDrinker.getPrimaryKey(), beerDrinker, serviceContext);
 
 		return beerDrinker;
 	}
